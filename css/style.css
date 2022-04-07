@@ -51,6 +51,8 @@ body {
 
 .calculator {
   box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .calculator__display {
@@ -65,9 +67,10 @@ body {
 .calculator__keys {
   background: var(--grey-200);
   display: grid;
+  gap: 2px;
   grid-template-columns: repeat(4, auto);
   grid-template-areas:
-    'clear clear delete delete'
+    'on sound clear delete'
     'percent square-root divide times'
     'seven eight nine minus'
     'four five six plus'
@@ -75,12 +78,49 @@ body {
     'zero decimal plus-minus equal';
 }
 
+.calculator__keys > button {
+  border: 0;
+  padding: 1rem;
+}
+
+.operator {
+  background-color: var(--grey-100);
+}
+
+.number {
+  background-color: #fff;
+}
+
+.operator:active,
+.number:active {
+  background-color: var(--grey-200);
+}
+
+.on {
+  grid-area: on;
+}
+
+.sound {
+  grid-area: sound;
+}
+
 .clear {
   grid-area: clear;
 }
 
+.on:active,
+.sound:active,
+.clear:active {
+  background-color: var(--grey-400);
+}
+
 .delete {
   grid-area: delete;
+  background-color: var(--orange-500);
+}
+
+.delete:active {
+  background-color: var(--orange-600);
 }
 
 .one {
@@ -157,4 +197,9 @@ body {
 
 .equal {
   grid-area: equal;
+  background-color: var(--orange-400);
+}
+
+.equal:active {
+  background-color: var(--orange-500);
 }
