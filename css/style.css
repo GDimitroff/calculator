@@ -70,7 +70,7 @@ body {
   gap: 2px;
   grid-template-columns: repeat(4, auto);
   grid-template-areas:
-    'on sound clear delete'
+    'power-off sound clear delete'
     'percent square-root divide times'
     'seven eight nine minus'
     'four five six plus'
@@ -96,8 +96,8 @@ body {
   background-color: var(--grey-200);
 }
 
-.on {
-  grid-area: on;
+.power-off {
+  grid-area: power-off;
 }
 
 .sound {
@@ -108,19 +108,15 @@ body {
   grid-area: clear;
 }
 
-.on:active,
+.power-off:active,
 .sound:active,
 .clear:active {
-  background-color: var(--grey-400);
+  background-color: var(--grey-300);
 }
 
 .delete {
   grid-area: delete;
   background-color: var(--orange-500);
-}
-
-.delete:active {
-  background-color: var(--orange-600);
 }
 
 .one {
@@ -197,9 +193,10 @@ body {
 
 .equal {
   grid-area: equal;
-  background-color: var(--orange-400);
+  background-color: var(--orange-500);
 }
 
+.delete:active,
 .equal:active {
-  background-color: var(--orange-500);
+  background-color: var(--orange-600);
 }
