@@ -67,7 +67,6 @@ body {
 .calculator__keys {
   background: var(--grey-200);
   display: grid;
-  gap: 2px;
   grid-template-columns: repeat(4, auto);
   grid-template-areas:
     'power-off sound clear delete'
@@ -75,24 +74,30 @@ body {
     'seven eight nine minus'
     'four five six plus'
     'one two three equal'
-    'zero decimal plus-minus equal';
+    'zero decimal zero-zero equal';
 }
 
-.calculator__keys > button {
+[data-type='settings'],
+[data-type='operator'],
+[data-type='number'] {
+  border: 1px solid var(--grey-200);
+  padding: 1.2rem;
+}
+
+[data-type='settings'] {
   border: 0;
-  padding: 1rem;
 }
 
-.operator {
+[data-type='operator'] {
   background-color: var(--grey-100);
 }
 
-.number {
+[data-type='number'] {
   background-color: #fff;
 }
 
-.operator:active,
-.number:active {
+[data-type='operator']:active,
+[data-type='number']:active {
   background-color: var(--grey-200);
 }
 
@@ -159,6 +164,10 @@ body {
   grid-area: zero;
 }
 
+.zero-zero {
+  grid-area: zero-zero;
+}
+
 .decimal {
   grid-area: decimal;
 }
@@ -185,10 +194,6 @@ body {
 
 .square-root {
   grid-area: square-root;
-}
-
-.plus-minus {
-  grid-area: plus-minus;
 }
 
 .equal {

@@ -1,18 +1,36 @@
-function add(a, b) {
-  return a + b;
-}
+const calculator = document.querySelector('.calculator');
+const keys = calculator.querySelector('.calculator__keys');
+const display = calculator.querySelector('.calculator__display');
 
-function subtract(a, b) {
-  return a - b;
-}
+keys.addEventListener('click', (event) => {
+  if (event.currentTarget === event.target) return;
 
-function multiply(a, b) {
-  return a * b;
-}
+  const key = event.target;
+  const keyValue = key.textContent;
+  const displayValue = display.textContent;
 
-function divide(a, b) {
-  return a / b;
-}
+  // Is this a settings key?
+  if (key.dataset.type === 'settings') {
+    console.log(key);
+  }
+
+  // Is this a number key?
+  if (key.dataset.type === 'number') {
+    if (displayValue === '0') {
+      display.textContent = keyValue;
+    } else {
+      display.textContent = displayValue + keyValue;
+    }
+  }
+
+  // Is this an operator key?
+
+  if (key.dataset.type === 'operator') {
+    console.log(key);
+
+    calculator.dataset.previousKeyType = 'operator';
+  }
+});
 
 function operate(operator, a, b) {
   a = Number(a);
@@ -30,4 +48,20 @@ function operate(operator, a, b) {
     default:
       return null;
   }
+}
+
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  return a / b;
 }
