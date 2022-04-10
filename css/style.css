@@ -69,23 +69,27 @@ body {
   display: grid;
   grid-template-columns: repeat(4, auto);
   grid-template-areas:
-    'power-off sound clear delete'
-    'percent square-root divide times'
-    'seven eight nine minus'
-    'four five six plus'
+    'power-off power-off delete delete'
+    'divide times minus plus'
+    'seven eight nine equal'
+    'four five six equal'
     'one two three equal'
-    'zero decimal zero-zero equal';
-}
-
-[data-type='settings'],
-[data-type='operator'],
-[data-type='number'] {
-  border: 1px solid var(--grey-200);
-  padding: 1.2rem;
+    'zero decimal clear equal';
 }
 
 [data-type='settings'] {
   border: 0;
+  padding: 0.8rem;
+}
+
+[data-type='settings']:active {
+  background-color: var(--grey-300);
+}
+
+[data-type='operator'],
+[data-type='number'] {
+  border: 1px solid var(--grey-200);
+  padding: 1.2rem;
 }
 
 [data-type='operator'] {
@@ -105,23 +109,24 @@ body {
   grid-area: power-off;
 }
 
-.sound {
-  grid-area: sound;
-}
-
-.clear {
-  grid-area: clear;
-}
-
-.power-off:active,
-.sound:active,
-.clear:active {
-  background-color: var(--grey-300);
-}
-
 .delete {
   grid-area: delete;
-  background-color: var(--orange-500);
+}
+
+[data-key='plus'] {
+  grid-area: plus;
+}
+
+[data-key='minus'] {
+  grid-area: minus;
+}
+
+[data-key='times'] {
+  grid-area: times;
+}
+
+[data-key='divide'] {
+  grid-area: divide;
 }
 
 .one {
@@ -172,28 +177,14 @@ body {
   grid-area: decimal;
 }
 
-.plus {
-  grid-area: plus;
+.clear {
+  grid-area: clear;
+  background-color: #fff;
+  border: 1px solid var(--grey-200);
 }
 
-.minus {
-  grid-area: minus;
-}
-
-.times {
-  grid-area: times;
-}
-
-.divide {
-  grid-area: divide;
-}
-
-.percent {
-  grid-area: percent;
-}
-
-.square-root {
-  grid-area: square-root;
+.clear:active {
+  background-color: var(--grey-200);
 }
 
 .equal {
@@ -201,7 +192,10 @@ body {
   background-color: var(--orange-500);
 }
 
-.delete:active,
 .equal:active {
   background-color: var(--orange-600);
+}
+
+[data-state='selected'] {
+  background-color: var(--grey-200);
 }

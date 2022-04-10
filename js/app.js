@@ -8,60 +8,48 @@ keys.addEventListener('click', (event) => {
   const key = event.target;
   const keyValue = key.textContent;
   const displayValue = display.textContent;
+  const { type } = key.dataset;
+  const { previousKeyType } = calculator.dataset;
 
-  // Is this a settings key?
-  if (key.dataset.type === 'settings') {
+  if (type === 'settings') {
     console.log(key);
   }
 
-  // Is this a number key?
-  if (key.dataset.type === 'number') {
-    if (displayValue === '0') {
+  if (type === 'number') {
+    if (displayValue === '0' || previousKeyType === 'operator') {
       display.textContent = keyValue;
     } else {
       display.textContent = displayValue + keyValue;
     }
   }
 
-  // Is this an operator key?
+  if (type === 'operator') {
+    const operatorsKeys = keys.querySelectorAll('[data-type="operator"]');
+    operatorsKeys.forEach((el) => (el.dataset.state = ''));
+    key.dataset.state = 'selected';
 
-  if (key.dataset.type === 'operator') {
-    console.log(key);
-
-    calculator.dataset.previousKeyType = 'operator';
+    calculator.dataset.firstNumber = displayValue;
+    calculator.dataset.operator = key.dataset.key;
   }
+
+  if (type === 'equal') {
+    const firstNumber = calculator.dataset.firstNumber;
+    const operator = calculator.dataset.operator;
+    const secondNumber = displayValue;
+
+    let result = calculate(operator, firstNumber, secondNumber);
+    display.textContent = result;
+  }
+
+  calculator.dataset.previousKeyType = type;
 });
 
-function operate(operator, a, b) {
-  a = Number(a);
-  b = Number(b);
+function calculate(operator, a, b) {
+  a = parseInt(a);
+  b = parseInt(b);
 
-  switch (operator) {
-    case '+':
-      return add(a, b);
-    case '-':
-      return subtract(a, b);
-    case '*':
-      return multiply(a, b);
-    case '/':
-      return divide(a, b);
-    default:
-      return null;
-  }
-}
-
-function add(a, b) {
-  return a + b;
-}
-
-function subtract(a, b) {
-  return a - b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function divide(a, b) {
-  return a / b;
+  if (operator === 'plus') return a + b;
+  if (operator === 'minus') return a - b;
+  if (operator === 'times') return a * b;
+  if (operator === 'divide') return a / b;
 }
