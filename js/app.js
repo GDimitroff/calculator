@@ -1,55 +1,85 @@
 const calculator = document.querySelector('.calculator');
 const keys = calculator.querySelector('.calculator__keys');
-const display = calculator.querySelector('.calculator__display');
+const equation = calculator.querySelector('.calculator__display__equation');
+const result = calculator.querySelector('.calculator__display__result');
 
-keys.addEventListener('click', (event) => {
-  if (event.currentTarget === event.target) return;
+const equalBtn = calculator.querySelector('.equal');
+const clearBtn = calculator.querySelector('.clear');
+const deleteBtn = calculator.querySelector('.delete');
 
-  const key = event.target;
+let currentEquation = '0';
+let previousKeyType = null;
+
+keys.addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) return;
+
+  const key = e.target;
   const keyValue = key.textContent;
-  const displayValue = display.textContent;
   const { type } = key.dataset;
-  const { previousKeyType } = calculator.dataset;
+  appendKey(type, keyValue);
+});
 
-  if (type === 'settings') {
-    console.log(key);
+function appendKey(type, keyValue) {
+  if (type === 'number') appendNumber(keyValue);
+  if (type === 'operator') appendOperator(keyValue);
+
+  calculator.dataset.previousKeyType = type;
+  previousKeyType = type;
+}
+
+function appendNumber(number) {
+  if (currentEquation === '0') {
+    equation.textContent = number;
+    currentEquation = number;
+  } else {
+    equation.textContent = currentEquation + number;
+    currentEquation += number;
   }
 
-  if (type === 'number') {
-    if (displayValue === '0' || previousKeyType === 'operator') {
-      display.textContent = keyValue;
-    } else {
-      display.textContent = displayValue + keyValue;
+  if (currentEquation !== '0') {
+    result.textContent = handleEquation(currentEquation);
+  }
+}
+
+function appendOperator(operator) {
+  if (previousKeyType === 'operator') {
+    currentEquation = currentEquation.slice(0, currentEquation.length - 3);
+  }
+
+  currentEquation += ' ' + operator + ' ';
+  equation.textContent = currentEquation;
+  result.textContent = '';
+}
+
+function handleEquation(equation) {
+  equation = equation.split(' ');
+  const operators = ['÷', '×', '−', '+'];
+  let firstNumber;
+  let secondNumber;
+  let operator;
+  let operatorIndex;
+  let result;
+
+  for (var i = 0; i < operators.length; i++) {
+    while (equation.includes(operators[i])) {
+      operatorIndex = equation.findIndex((item) => item === operators[i]);
+      firstNumber = equation[operatorIndex - 1];
+      operator = equation[operatorIndex];
+      secondNumber = equation[operatorIndex + 1];
+      result = calculate(firstNumber, operator, secondNumber);
+      equation.splice(operatorIndex - 1, 3, result);
     }
   }
 
-  if (type === 'operator') {
-    const operatorsKeys = keys.querySelectorAll('[data-type="operator"]');
-    operatorsKeys.forEach((el) => (el.dataset.state = ''));
-    key.dataset.state = 'selected';
+  return result;
+}
 
-    calculator.dataset.firstNumber = displayValue;
-    calculator.dataset.operator = key.dataset.key;
-  }
+function calculate(a, operator, b) {
+  a = Number(a);
+  b = Number(b);
 
-  if (type === 'equal') {
-    const firstNumber = calculator.dataset.firstNumber;
-    const operator = calculator.dataset.operator;
-    const secondNumber = displayValue;
-
-    let result = calculate(operator, firstNumber, secondNumber);
-    display.textContent = result;
-  }
-
-  calculator.dataset.previousKeyType = type;
-});
-
-function calculate(operator, a, b) {
-  a = parseInt(a);
-  b = parseInt(b);
-
-  if (operator === 'plus') return a + b;
-  if (operator === 'minus') return a - b;
-  if (operator === 'times') return a * b;
-  if (operator === 'divide') return a / b;
+  if (operator === '+') return a + b;
+  if (operator === '−') return a - b;
+  if (operator === '×') return a * b;
+  if (operator === '÷') return a / b;
 }

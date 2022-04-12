@@ -26,14 +26,13 @@
   <body>
     <div class="container">
       <div class="calculator">
-        <div class="calculator__display">0</div>
+        <div class="calculator__display">
+          <p class="calculator__display__equation">0</p>
+          <p class="calculator__display__result"></p>
+        </div>
         <div class="calculator__keys">
-          <button class="power-off" data-type="settings">
-            <i class="fa-solid fa-power-off"></i>
-          </button>
-          <button class="delete" data-type="settings">
-            <i class="fa-solid fa-trash-can"></i>
-          </button>
+          <button class="clear" data-type="clear">Clear</button>
+          <button class="delete" data-type="delete">Delete</button>
           <button data-key="plus" data-type="operator">&plus;</button>
           <button data-key="minus" data-type="operator">&minus;</button>
           <button data-key="times" data-type="operator">&times;</button>
@@ -49,7 +48,7 @@
           <button class="nine" data-type="number">9</button>
           <button class="zero" data-type="number">0</button>
           <button class="decimal" data-type="number">.</button>
-          <button class="clear" data-type="clear">C</button>
+          <button class="zero-zero" data-type="number">00</button>
           <button class="equal" data-type="equal">&equals;</button>
         </div>
       </div>
