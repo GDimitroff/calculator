@@ -2,9 +2,6 @@ const calculator = document.querySelector('.calculator');
 const keys = calculator.querySelector('.calculator__keys');
 const equation = calculator.querySelector('.calculator__display__equation');
 const result = calculator.querySelector('.calculator__display__result');
-const equalBtn = calculator.querySelector('.equal');
-const clearBtn = calculator.querySelector('.clear');
-const deleteBtn = calculator.querySelector('.delete');
 
 let previousKeyType = null;
 let currentNumber = null;
@@ -23,6 +20,7 @@ function appendKey(type, keyValue) {
   if (type === 'number') appendNumber(keyValue);
   if (type === 'operator') appendOperator(keyValue);
   if (type === 'decimal') appendDecimal();
+  if (type === 'clear') clearDisplay();
 
   calculator.dataset.previousKeyType = type;
   previousKeyType = type;
@@ -59,6 +57,14 @@ function appendDecimal() {
   currentEquation += '.';
   currentNumber += '.';
   equation.textContent = currentEquation;
+}
+
+function clearDisplay() {
+  previousKeyType = null;
+  currentNumber = null;
+  currentEquation = '';
+  equation.textContent = '';
+  result.textContent = '';
 }
 
 function handleEquation(equation) {
