@@ -2,13 +2,13 @@ const calculator = document.querySelector('.calculator');
 const keys = calculator.querySelector('.calculator__keys');
 const equation = calculator.querySelector('.calculator__display__equation');
 const result = calculator.querySelector('.calculator__display__result');
-
 const equalBtn = calculator.querySelector('.equal');
 const clearBtn = calculator.querySelector('.clear');
 const deleteBtn = calculator.querySelector('.delete');
 
-let currentEquation = '0';
 let previousKeyType = null;
+let currentNumber = null;
+let currentEquation = '';
 
 keys.addEventListener('click', (e) => {
   if (e.target === e.currentTarget) return;
@@ -22,33 +22,43 @@ keys.addEventListener('click', (e) => {
 function appendKey(type, keyValue) {
   if (type === 'number') appendNumber(keyValue);
   if (type === 'operator') appendOperator(keyValue);
+  if (type === 'decimal') appendDecimal();
 
   calculator.dataset.previousKeyType = type;
   previousKeyType = type;
 }
 
 function appendNumber(number) {
-  if (currentEquation === '0') {
-    equation.textContent = number;
-    currentEquation = number;
+  if (!currentNumber) {
+    currentNumber = number;
   } else {
-    equation.textContent = currentEquation + number;
-    currentEquation += number;
+    currentNumber += number;
   }
 
-  if (currentEquation !== '0') {
-    result.textContent = handleEquation(currentEquation);
-  }
+  currentEquation += number;
+  equation.textContent = currentEquation;
+  result.textContent = handleEquation(currentEquation);
 }
 
 function appendOperator(operator) {
+  if (!currentEquation) return;
+
   if (previousKeyType === 'operator') {
     currentEquation = currentEquation.slice(0, currentEquation.length - 3);
   }
 
+  currentNumber = null;
   currentEquation += ' ' + operator + ' ';
   equation.textContent = currentEquation;
   result.textContent = '';
+}
+
+function appendDecimal() {
+  if (!currentNumber || currentNumber.includes('.')) return;
+
+  currentEquation += '.';
+  currentNumber += '.';
+  equation.textContent = currentEquation;
 }
 
 function handleEquation(equation) {

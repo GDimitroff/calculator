@@ -91,6 +91,7 @@ body {
 .delete,
 [data-type='operator'],
 [data-type='number'],
+.decimal,
 .equal {
   min-width: 8rem;
   border: 0;
@@ -116,7 +117,8 @@ body {
   padding: 1.6rem 0.8rem;
 }
 
-[data-type='number'] {
+[data-type='number'],
+.decimal {
   background-color: #fff;
   padding: 2rem 1rem;
 }
@@ -124,7 +126,8 @@ body {
 .clear:active,
 .delete:active,
 [data-type='operator']:active,
-[data-type='number']:active {
+[data-type='number']:active,
+.decimal:active {
   background-color: var(--grey-300);
 }
 
