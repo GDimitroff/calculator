@@ -22,6 +22,7 @@ function appendKey(type, keyValue) {
   if (type === 'decimal') appendDecimal();
   if (type === 'clear') clearDisplay();
   if (type === 'delete') deleteNumber();
+  if (type === 'equal') evaluate();
 
   calculator.dataset.previousKeyType = type;
   previousKeyType = type;
@@ -106,6 +107,28 @@ function deleteNumber() {
   }
 
   equationDisplay.textContent = equation.join(' ');
+}
+
+function evaluate() {
+  let finalResult;
+  if (equation.length === 0) return;
+
+  if (equation.length < 3) {
+    if (equation[0].endsWith('.')) {
+      finalResult = equation[0].slice(0, equation[0].length - 1);
+    } else {
+      finalResult = equation[0];
+    }
+  } else {
+    finalResult = handleEquation(equation);
+  }
+
+  equationDisplay.textContent = finalResult;
+  resultDisplay.textContent = '';
+
+  currentNumber = finalResult.toString();
+  equation = [];
+  equation.push(currentNumber);
 }
 
 function handleEquation(equation) {
