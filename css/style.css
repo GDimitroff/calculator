@@ -3,16 +3,8 @@
 /******************************/
 
 :root {
-  --orange-050: #ffe8d9;
-  --orange-100: #ffd0b5;
-  --orange-200: #ffb088;
-  --orange-300: #ff9466;
-  --orange-400: #f9703e;
-  --orange-500: #f35627;
-  --orange-600: #de3a11;
-  --orange-700: #c52707;
-  --orange-800: #ad1d07;
-  --orange-900: #841003;
+  --green-300: #70e000;
+  --green-400: #38b000;
 
   --grey-050: #f5f7fa;
   --grey-100: #e4e7eb;
@@ -57,11 +49,11 @@ body {
 
 .calculator__display {
   height: 10rem;
-  font-size: 2.8rem;
+  font-size: 2.2rem;
   color: var(--grey-050);
   background-color: var(--grey-900);
   text-align: right;
-  padding: 1.4rem;
+  padding: 1.8rem 2.2rem;
 }
 
 .calculator__display__result {
@@ -69,36 +61,43 @@ body {
 }
 
 .calculator__keys {
-  background: var(--grey-200);
+  background: var(--grey-050);
   display: grid;
-  font-size: 2.4rem;
-  gap: 0.8rem;
-  padding: 1.4rem;
+  font-size: 1.6rem;
+  gap: 1.8rem;
+  padding: 2.2rem;
   grid-template-columns: repeat(4, auto);
   grid-template-areas:
-    'clear clear delete delete'
-    'divide times minus plus'
-    'seven eight nine equal'
-    'four five six equal'
-    'one two three equal'
-    'zero decimal zero-zero equal';
+    'clear delete sound divide'
+    'seven eight nine times'
+    'four five six minus'
+    'one two three plus'
+    'zero decimal equal equal';
+}
+
+.button {
+  min-width: 6.2rem;
+  min-height: 6.2rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: var(--grey-050);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
+    0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),
+    0 16px 16px rgba(0, 0, 0, 0.05);
+}
+
+.button:active {
+  background-color: var(--grey-200);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), 0 2px 2px rgba(0, 0, 0, 0.2),
+    0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0),
+    0 16px 16px rgba(0, 0, 0, 0);
 }
 
 .clear,
 .delete,
-[data-type='operator'],
-[data-type='number'],
-.decimal,
-.equal {
-  min-width: 8rem;
-  border: 0;
-  border-radius: 0.8rem;
-}
-
-.clear,
-.delete {
-  background-color: #fff;
-  padding: 1.6rem;
+.sound,
+[data-type='operator'] {
+  background-color: var(--grey-100);
 }
 
 .clear {
@@ -109,38 +108,23 @@ body {
   grid-area: delete;
 }
 
-[data-type='operator'] {
-  background-color: var(--grey-100);
-  padding: 1.6rem 0.8rem;
+.sound {
+  grid-area: sound;
 }
 
-[data-type='number'],
-.decimal {
-  background-color: #fff;
-  padding: 2rem 1rem;
-}
-
-.clear:active,
-.delete:active,
-[data-type='operator']:active,
-[data-type='number']:active,
-.decimal:active {
-  background-color: var(--grey-300);
-}
-
-[data-key='plus'] {
+.plus {
   grid-area: plus;
 }
 
-[data-key='minus'] {
+.minus {
   grid-area: minus;
 }
 
-[data-key='times'] {
+.times {
   grid-area: times;
 }
 
-[data-key='divide'] {
+.divide {
   grid-area: divide;
 }
 
@@ -184,23 +168,15 @@ body {
   grid-area: zero;
 }
 
-.zero-zero {
-  grid-area: zero-zero;
-}
-
 .decimal {
   grid-area: decimal;
 }
 
-.zero-zero {
-  grid-area: zero-zero;
-}
-
 .equal {
   grid-area: equal;
-  background-color: var(--orange-500);
+  background-color: var(--green-300);
 }
 
 .equal:active {
-  background-color: var(--orange-600);
+  background-color: var(--green-400);
 }
