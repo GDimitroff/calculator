@@ -64,9 +64,6 @@ body {
   padding: 1.4rem;
 }
 
-.calculator__display__operation {
-}
-
 .calculator__display__result {
   color: var(--grey-300);
 }
