@@ -47,6 +47,13 @@ function appendNumber(number) {
 function appendOperator(operator) {
   if (equation.length === 0) return;
 
+  if (currentNumber && currentNumber.endsWith('.')) {
+    equation[equation.length - 1] = currentNumber.slice(
+      0,
+      currentNumber.length - 1
+    );
+  }
+
   if (previousKeyType === 'operator') {
     equation.pop();
   }
@@ -113,12 +120,14 @@ function evaluate() {
   let finalResult;
   if (equation.length === 0) return;
 
+  let lastElement = equation[equation.length - 1];
+  if (lastElement.endsWith('.')) {
+    lastElement = lastElement.slice(0, lastElement.length - 1);
+    equation[equation.length - 1] = lastElement;
+  }
+
   if (equation.length < 3) {
-    if (equation[0].endsWith('.')) {
-      finalResult = equation[0].slice(0, equation[0].length - 1);
-    } else {
-      finalResult = equation[0];
-    }
+    finalResult = equation[0];
   } else {
     finalResult = handleEquation(equation);
   }
