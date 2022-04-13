@@ -5,7 +5,7 @@ const result = calculator.querySelector('.calculator__display__result');
 
 let previousKeyType = null;
 let currentNumber = null;
-let currentEquation = '';
+let currentEquation = [];
 
 keys.addEventListener('click', (e) => {
   if (e.target === e.currentTarget) return;
@@ -21,6 +21,7 @@ function appendKey(type, keyValue) {
   if (type === 'operator') appendOperator(keyValue);
   if (type === 'decimal') appendDecimal();
   if (type === 'clear') clearDisplay();
+  if (type === 'delete') deleteNumber();
 
   calculator.dataset.previousKeyType = type;
   previousKeyType = type;
@@ -30,45 +31,80 @@ function appendNumber(number) {
   if (!currentNumber) {
     currentNumber = number;
   } else {
-    currentNumber += number;
+    currentNumber = currentEquation.pop() + number;
   }
 
-  currentEquation += number;
-  equation.textContent = currentEquation;
+  currentEquation.push(currentNumber);
+  equation.textContent = currentEquation.join(' ');
   result.textContent = handleEquation(currentEquation);
 }
 
 function appendOperator(operator) {
-  if (!currentEquation) return;
+  if (currentEquation.length === 0) return;
 
   if (previousKeyType === 'operator') {
-    currentEquation = currentEquation.slice(0, currentEquation.length - 3);
+    currentEquation.pop();
   }
 
   currentNumber = null;
-  currentEquation += ' ' + operator + ' ';
-  equation.textContent = currentEquation;
+  currentEquation.push(operator);
+  equation.textContent = currentEquation.join(' ');
   result.textContent = '';
 }
 
 function appendDecimal() {
   if (!currentNumber || currentNumber.includes('.')) return;
 
-  currentEquation += '.';
   currentNumber += '.';
-  equation.textContent = currentEquation;
+  currentEquation[currentEquation.length - 1] = currentNumber;
+  equation.textContent = currentEquation.join(' ');
+  result.textContent = '';
 }
 
 function clearDisplay() {
   previousKeyType = null;
   currentNumber = null;
-  currentEquation = '';
+  currentEquation = [];
   equation.textContent = '';
   result.textContent = '';
 }
 
+function deleteNumber() {
+  let number = currentEquation.pop();
+
+  if (!isNaN(Number(number))) {
+    number = number.slice(0, number.length - 1);
+
+    if (number) {
+      currentNumber = number;
+      currentEquation.push(number);
+    } else {
+      currentNumber = null;
+    }
+  }
+
+  if (currentNumber && !currentNumber.endsWith('.')) {
+    result.textContent = handleEquation(currentEquation);
+  }
+
+  if (currentNumber && currentNumber.endsWith('.')) {
+    result.textContent = '';
+  }
+
+  if (!currentNumber) {
+    if (!isNaN(Number(currentEquation[currentEquation.length - 1]))) {
+      currentNumber = currentEquation[currentEquation.length - 1];
+      result.textContent = handleEquation(currentEquation);
+    } else {
+      result.textContent = '';
+    }
+  }
+
+  equation.textContent = currentEquation.join(' ');
+}
+
 function handleEquation(equation) {
-  equation = equation.split(' ');
+  equation = equation.join(' ').split(' ');
   const operators = ['÷', '×', '−', '+'];
   let firstNumber;
   let secondNumber;
