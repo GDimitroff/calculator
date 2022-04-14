@@ -42,7 +42,7 @@ body {
 /**************/
 
 .calculator {
-  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
   border-radius: 0.8rem;
   overflow: hidden;
 }
@@ -72,7 +72,7 @@ body {
     'seven eight nine times'
     'four five six minus'
     'one two three plus'
-    'zero decimal equal equal';
+    'zero point equal equal';
 }
 
 .button {
@@ -168,8 +168,8 @@ body {
   grid-area: zero;
 }
 
-.decimal {
-  grid-area: decimal;
+.point {
+  grid-area: point;
 }
 
 .equal {

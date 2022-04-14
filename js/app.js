@@ -18,8 +18,8 @@ keys.addEventListener('click', (e) => {
 
 function appendKey(type, keyValue) {
   if (type === 'number') appendNumber(keyValue);
-  if (type === 'operator') appendOperator(keyValue);
-  if (type === 'decimal') appendDecimal();
+  if (type === 'operator') setOperator(keyValue);
+  if (type === 'point') appendPoint();
   if (type === 'clear') clearDisplay();
   if (type === 'delete') deleteNumber();
   if (type === 'equal') evaluate();
@@ -44,7 +44,7 @@ function appendNumber(number) {
   resultDisplay.textContent = handleEquation(equation);
 }
 
-function appendOperator(operator) {
+function setOperator(operator) {
   if (equation.length === 0) return;
 
   if (currentNumber && currentNumber.endsWith('.')) {
@@ -64,7 +64,7 @@ function appendOperator(operator) {
   resultDisplay.textContent = '';
 }
 
-function appendDecimal() {
+function appendPoint() {
   if (!currentNumber || currentNumber.includes('.')) return;
 
   currentNumber += '.';
@@ -117,15 +117,19 @@ function deleteNumber() {
 }
 
 function evaluate() {
-  let finalResult;
   if (equation.length === 0) return;
 
   let lastElement = equation[equation.length - 1];
+  if (isNaN(lastElement)) {
+    equation.pop();
+  }
+
   if (lastElement.endsWith('.')) {
     lastElement = lastElement.slice(0, lastElement.length - 1);
     equation[equation.length - 1] = lastElement;
   }
 
+  let finalResult;
   if (equation.length < 3) {
     finalResult = equation[0];
   } else {
@@ -137,7 +141,12 @@ function evaluate() {
 
   currentNumber = finalResult.toString();
   equation = [];
-  equation.push(currentNumber);
+
+  if (currentNumber === 'Infinity' || currentNumber === '-Infinity') {
+    currentNumber = null;
+  } else {
+    equation.push(currentNumber);
+  }
 }
 
 function handleEquation(equation) {
