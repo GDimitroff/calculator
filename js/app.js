@@ -3,7 +3,6 @@ const keys = calculator.querySelector('.calculator__keys');
 const equationDisplay = calculator.querySelector('#display-equation');
 const resultDisplay = calculator.querySelector('#display-result');
 
-let previousKeyType = null;
 let currentNumber = null;
 let equation = [];
 
@@ -23,16 +22,22 @@ function appendKey(type, keyValue) {
   if (type === 'clear') clearDisplay();
   if (type === 'delete') deleteNumber();
   if (type === 'equal') evaluate();
-
-  calculator.dataset.previousKeyType = type;
-  previousKeyType = type;
 }
 
 function appendNumber(number) {
+  equation.length === 0
+    ? (currentNumber = null)
+    : (currentNumber = equation.pop());
+
+  if (isNaN(currentNumber)) {
+    equation.push(currentNumber);
+    currentNumber = null;
+  }
+
   if (!currentNumber) {
     currentNumber = number;
   } else {
-    currentNumber = equation.pop() + number;
+    currentNumber += number;
 
     if (currentNumber[0] === '0' && currentNumber[1] !== '.') {
       currentNumber = currentNumber.slice(1);
@@ -40,6 +45,7 @@ function appendNumber(number) {
   }
 
   equation.push(currentNumber);
+  currentNumber = null;
   equationDisplay.textContent = equation.join(' ');
   resultDisplay.textContent = handleEquation(equation);
 }
@@ -47,15 +53,13 @@ function appendNumber(number) {
 function setOperator(operator) {
   if (equation.length === 0) return;
 
-  if (currentNumber && currentNumber.endsWith('.')) {
-    equation[equation.length - 1] = currentNumber.slice(
-      0,
-      currentNumber.length - 1
-    );
-  }
+  currentNumber = equation.pop();
+  if (!isNaN(currentNumber)) {
+    if (currentNumber.endsWith('.')) {
+      currentNumber = currentNumber.slice(0, currentNumber.length - 1);
+    }
 
-  if (previousKeyType === 'operator') {
-    equation.pop();
+    equation.push(currentNumber);
   }
 
   currentNumber = null;
@@ -65,16 +69,30 @@ function setOperator(operator) {
 }
 
 function appendPoint() {
-  if (!currentNumber || currentNumber.includes('.')) return;
+  if (equation.length === 0) {
+    currentNumber = '0';
+  } else {
+    currentNumber = equation.pop();
+  }
+
+  if (currentNumber.includes('.')) {
+    equation.push(currentNumber);
+    return;
+  }
+
+  if (isNaN(currentNumber)) {
+    equation.push(currentNumber);
+    currentNumber = '0';
+  }
 
   currentNumber += '.';
-  equation[equation.length - 1] = currentNumber;
+  equation.push(currentNumber);
+  currentNumber = null;
   equationDisplay.textContent = equation.join(' ');
   resultDisplay.textContent = '';
 }
 
 function clearDisplay() {
-  previousKeyType = null;
   currentNumber = null;
   equation = [];
   equationDisplay.textContent = '';
