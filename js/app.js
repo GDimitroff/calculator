@@ -156,17 +156,15 @@ function evaluate() {
     finalResult = handleEquation(equation);
   }
 
+  finalResult = finalResult.toString();
+
+  if (finalResult === "Can't divide by zero!") return;
+
   equationDisplay.textContent = finalResult;
   resultDisplay.textContent = '';
 
-  currentNumber = finalResult.toString();
   equation = [];
-
-  if (currentNumber === 'Infinity' || currentNumber === '-Infinity') {
-    currentNumber = null;
-  } else {
-    equation.push(currentNumber);
-  }
+  equation.push(finalResult);
 }
 
 function handleEquation(equation) {
@@ -184,6 +182,11 @@ function handleEquation(equation) {
       firstNumber = equation[operatorIndex - 1];
       operator = equation[operatorIndex];
       secondNumber = equation[operatorIndex + 1];
+
+      if (operator === '÷' && secondNumber === '0') {
+        return "Can't divide by zero!";
+      }
+
       result = calculate(firstNumber, operator, secondNumber);
       equation.splice(operatorIndex - 1, 3, result);
     }
