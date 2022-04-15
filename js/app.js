@@ -82,14 +82,17 @@ function clearDisplay() {
 }
 
 function deleteNumber() {
-  let number = equation.pop();
+  currentNumber = equation.pop();
 
-  if (!isNaN(Number(number))) {
-    number = number.slice(0, number.length - 1);
+  if (!isNaN(Number(currentNumber))) {
+    currentNumber = currentNumber.slice(0, currentNumber.length - 1);
 
-    if (number) {
-      currentNumber = number;
-      equation.push(number);
+    if (currentNumber.length === 1 && currentNumber[0] === '-') {
+      currentNumber = null;
+    }
+
+    if (currentNumber) {
+      equation.push(currentNumber);
     } else {
       currentNumber = null;
     }
@@ -104,9 +107,8 @@ function deleteNumber() {
   }
 
   if (!currentNumber) {
-    const lastNumber = equation[equation.length - 1];
-    if (!isNaN(Number(lastNumber))) {
-      currentNumber = lastNumber;
+    currentNumber = equation[equation.length - 1];
+    if (!isNaN(Number(currentNumber))) {
       resultDisplay.textContent = handleEquation(equation);
     } else {
       resultDisplay.textContent = '';
