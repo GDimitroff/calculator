@@ -27,6 +27,7 @@ html {
   font-weight: 300;
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   line-height: 1.4;
+  user-select: none;
 }
 
 body {
