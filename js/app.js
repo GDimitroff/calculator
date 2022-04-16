@@ -26,6 +26,14 @@ keys.addEventListener('click', (e) => {
 });
 
 function appendKey(type, keyValue) {
+  if (type === 'number' || type === 'operator' || type === 'point') {
+    const length = equation.join('').length;
+    if (length > 20) {
+      resultDisplay.textContent = "Can't enter more than 20 characters!";
+      return;
+    }
+  }
+
   if (type === 'number') appendNumber(keyValue);
   if (type === 'operator') setOperator(keyValue);
   if (type === 'point') appendPoint();
@@ -224,7 +232,9 @@ function handleEquation(equation) {
     equation.splice(operatorIndex - 1, 3, result);
   }
 
-  return result;
+  if (result) {
+    return Math.round(result * 100 + Number.EPSILON) / 100;
+  }
 }
 
 function calculate(a, operator, b) {
