@@ -188,27 +188,36 @@ function evaluate() {
 
 function handleEquation(equation) {
   equation = equation.join(' ').split(' ');
-  const operators = ['÷', '×', '−', '+'];
   let firstNumber;
   let secondNumber;
   let operator;
   let operatorIndex;
   let result;
 
-  for (var i = 0; i < operators.length; i++) {
-    while (equation.includes(operators[i])) {
-      operatorIndex = equation.findIndex((item) => item === operators[i]);
-      firstNumber = equation[operatorIndex - 1];
-      operator = equation[operatorIndex];
-      secondNumber = equation[operatorIndex + 1];
+  while (equation.includes('÷') || equation.includes('×')) {
+    operatorIndex = equation.findIndex((item) => item === '÷' || item === '×');
 
-      if (operator === '÷' && secondNumber === '0') {
-        return "Can't divide by zero!";
-      }
+    firstNumber = equation[operatorIndex - 1];
+    operator = equation[operatorIndex];
+    secondNumber = equation[operatorIndex + 1];
 
-      result = calculate(firstNumber, operator, secondNumber);
-      equation.splice(operatorIndex - 1, 3, result);
+    if (operator === '÷' && secondNumber === '0') {
+      return "Can't divide by zero!";
     }
+
+    result = calculate(firstNumber, operator, secondNumber);
+    equation.splice(operatorIndex - 1, 3, result);
+  }
+
+  while (equation.includes('+') || equation.includes('−')) {
+    operatorIndex = equation.findIndex((item) => item === '+' || item === '−');
+
+    firstNumber = equation[operatorIndex - 1];
+    operator = equation[operatorIndex];
+    secondNumber = equation[operatorIndex + 1];
+
+    result = calculate(firstNumber, operator, secondNumber);
+    equation.splice(operatorIndex - 1, 3, result);
   }
 
   return result;
