@@ -9,6 +9,8 @@ let sound = false;
 let currentNumber = null;
 let equation = [];
 
+calculator.addEventListener('keyup', handleKeyboardInput);
+
 keys.addEventListener('click', (e) => {
   if (e.target === e.currentTarget) return;
 
@@ -146,13 +148,8 @@ function deleteNumber() {
 }
 
 function setSound() {
-  sound = !sound;
-
-  if (sound) {
-    soundBtn.classList.add('active');
-  } else {
-    soundBtn.classList.remove('active');
-  }
+  soundBtn.classList.toggle('active');
+  sound = soundBtn.classList.contains('active') ? true : false;
 }
 
 function evaluate() {
@@ -231,4 +228,23 @@ function calculate(a, operator, b) {
   if (operator === '−') return a - b;
   if (operator === '×') return a * b;
   if (operator === '÷') return a / b;
+}
+
+function handleKeyboardInput(e) {
+  if (e.key === ' ' || e.code === 'Space' || e.keyCode === 32) return;
+  if (e.key >= 0 && e.key <= 9) appendKey('number', e.key);
+  if (e.key === '.') appendKey('point');
+  if (e.key === '=' || e.key === 'Enter') appendKey('equal');
+  if (e.key === 'Backspace') appendKey('delete');
+  if (e.key === 'Escape') appendKey('clear');
+  if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+    const operators = {
+      '+': '+',
+      '-': '−',
+      '/': '÷',
+      '*': '×',
+    };
+
+    appendKey('operator', operators[e.key]);
+  }
 }
