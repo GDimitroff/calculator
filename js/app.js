@@ -18,6 +18,11 @@ keys.addEventListener('click', (e) => {
   const keyValue = key.textContent;
   const { type } = key.dataset;
   appendKey(type, keyValue);
+
+  key.classList.toggle('active');
+  setTimeout(() => {
+    key.classList.toggle('active');
+  }, 50);
 });
 
 function appendKey(type, keyValue) {
