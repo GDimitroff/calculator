@@ -29,6 +29,8 @@ function appendKey(type, keyValue) {
   if (type === 'equal') evaluate();
   if (type === 'sound') setSound();
 
+  window.navigator.vibrate(50);
+
   if (sound) {
     clickSound.currentTime = 0;
     clickSound.play();
