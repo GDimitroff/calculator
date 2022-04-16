@@ -2,7 +2,10 @@ const calculator = document.querySelector('.calculator');
 const keys = calculator.querySelector('.calculator__keys');
 const equationDisplay = calculator.querySelector('#display-equation');
 const resultDisplay = calculator.querySelector('#display-result');
+const soundBtn = calculator.querySelector('.sound');
+const clickSound = new Audio('./sounds/clickSound.mp3');
 
+let sound = false;
 let currentNumber = null;
 let equation = [];
 
@@ -22,6 +25,12 @@ function appendKey(type, keyValue) {
   if (type === 'clear') clearDisplay();
   if (type === 'delete') deleteNumber();
   if (type === 'equal') evaluate();
+  if (type === 'sound') setSound();
+
+  if (sound) {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  }
 }
 
 function appendNumber(number) {
@@ -134,6 +143,16 @@ function deleteNumber() {
   }
 
   equationDisplay.textContent = equation.join(' ');
+}
+
+function setSound() {
+  sound = !sound;
+
+  if (sound) {
+    soundBtn.classList.add('active');
+  } else {
+    soundBtn.classList.remove('active');
+  }
 }
 
 function evaluate() {

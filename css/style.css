@@ -112,6 +112,10 @@ body {
   grid-area: sound;
 }
 
+.sound.active {
+  color: var(--green-400);
+}
+
 .plus {
   grid-area: plus;
 }
