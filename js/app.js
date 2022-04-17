@@ -9,7 +9,7 @@ let sound = false;
 let currentNumber = null;
 let equation = [];
 
-calculator.addEventListener('keyup', handleKeyboardInput);
+window.addEventListener('keyup', handleKeyboardInput);
 
 keys.addEventListener('click', (e) => {
   if (e.target === e.currentTarget) return;
@@ -28,7 +28,7 @@ keys.addEventListener('click', (e) => {
 function appendKey(type, keyValue) {
   if (type === 'number' || type === 'operator' || type === 'point') {
     const length = equation.join('').length;
-    if (length > 20) {
+    if (length > 15) {
       resultDisplay.textContent = "Can't enter more than 20 characters!";
       return;
     }
@@ -232,7 +232,7 @@ function handleEquation(equation) {
     equation.splice(operatorIndex - 1, 3, result);
   }
 
-  if (result) {
+  if (result || result === 0) {
     return Math.round(result * 100 + Number.EPSILON) / 100;
   }
 }
