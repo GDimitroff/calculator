@@ -28,7 +28,7 @@ function appendKey(type, keyValue) {
   if (type === 'number' || type === 'operator' || type === 'point') {
     const length = equation.join('').length;
     if (length > 15) {
-      resultDisplay.textContent = "Can't enter more than 20 characters!";
+      resultDisplay.textContent = "Can't enter more than 15 characters!";
       return;
     }
   }
