@@ -3,7 +3,6 @@ const keys = calculator.querySelector('.calculator__keys');
 const equationDisplay = calculator.querySelector('#display-equation');
 const resultDisplay = calculator.querySelector('#display-result');
 const soundBtn = calculator.querySelector('.sound');
-const clickSound = new Audio('./sounds/clickSound.mp3');
 
 let sound = false;
 let currentNumber = null;
@@ -42,9 +41,11 @@ function appendKey(type, keyValue) {
   if (type === 'equal') evaluate();
   if (type === 'sound') setSound();
 
-  window.navigator.vibrate(50);
+  const canVibrate = window.navigator.vibrate;
+  if (canVibrate) window.navigator.vibrate(50);
 
   if (sound) {
+    const clickSound = new Audio('./sounds/clickSound.mp3');
     clickSound.currentTime = 0;
     clickSound.play();
   }
